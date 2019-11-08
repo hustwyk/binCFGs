@@ -4,6 +4,7 @@ class FuncMapping:
     def __init__(self):
         self.ccode = {}  # key:value  ->  ccode_order:ccode_str
         self.address = {}  # key:value  ->  addr:ccode_order
+        self.vex = {} # key:value -> vex_order:vex_block
 
     def getCcodeFromAddrRange(self, beginAddr, endAddr):  # beginAddr, endAddr -> str
         """
@@ -25,3 +26,4 @@ class FuncMapping:
     def clean(self):
         self.ccode = {}
         self.address = {}
+        self.vex = {}

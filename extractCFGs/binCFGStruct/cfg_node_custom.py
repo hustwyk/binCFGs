@@ -2,11 +2,12 @@ import io
 import re
 
 class CFG_Node_Custom:
-    def __init__(self, node_id, node_pre=[], node_suc=[], node_asm_body=''):
+    def __init__(self, node_id, node_pre=[], node_suc=[], node_asm_body='', node_vex_body=''):
         self.node_id = node_id
         self.node_pre = self.trans2NodeId(node_pre)
         self.node_suc = self.trans2NodeId(node_suc)
         self.node_asm_body = node_asm_body
+        self.node_vex_body = node_vex_body
         self.node_c_body = ''
         self.extracted_addrs = self.extract_addrs()
 
@@ -36,6 +37,7 @@ class CFG_Node_Custom:
         node_dict['node_suc'] = self.node_suc
         node_dict['node_asm_body'] = self.node_asm_body
         node_dict['node_c_body'] = self.node_c_body
+        node_dict['node_vex_body'] = self.node_vex_body
         node_dict['extracted_addrs'] = self.extracted_addrs
         return node_dict
 
@@ -45,4 +47,5 @@ class CFG_Node_Custom:
         self.node_suc = node_dict['node_suc']
         self.node_asm_body = node_dict['node_asm_body']
         self.node_c_body = node_dict['node_c_body']
+        self.node_vex_body = node_dict['node_vex_body']
         self.extracted_addrs = node_dict['extracted_addrs']

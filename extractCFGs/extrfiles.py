@@ -7,8 +7,9 @@ from binCFGStruct import CFG_Bin_Custom, CFG_Func_Custom, CFG_Node_Custom, FuncM
 def optionParse():
     parser = OptionParser()
     parser.add_option('-f', '--file', dest='filename', help='Specify the file to extract the CFG.', metavar='FILE')
-    parser.add_option('-c', '--clanguage', action='store_true', dest='clanguage', default=False, help='Change the default language \
-                        from assembly to c-language')
+    parser.add_option('-a', '--asm', action='store_true', dest='asm', default=False, help='Print the assembly code of every node.')
+    parser.add_option('-c', '--clanguage', action='store_true', dest='clanguage', default=False, help='Print the C code of every node.')
+    parser.add_option('-i', '--ir', action='store_true', dest='ir', default=False, help='Print the angr IR vex of every node.')
     parser.add_option('-s', '--save', action='store_true', dest='save', default=False, help='Save the CFG info a yaml file, \
                         default file name is ${BIN_NAME}.yaml, default path is current path. -o can change output \
                         path and file name, and -O can change output directory.')
@@ -61,13 +62,7 @@ def optionParse():
             elif (not options.output) and (not options.outputdirectory) and options.save:
                 saveOp = 1
                 outputPath = os.path.splitext(fileName)[0] + '.yaml'
-            if options.quiet:
-                if options.clanguage:
-                    dict_func_graph = binCFGGraph.get_graph(1, 0, saveOp, outputPath)
-                else:
-                    dict_func_graph = binCFGGraph.get_graph(1, 1, saveOp, outputPath)
-            else:
-                dict_func_graph = binCFGGraph.get_graph(0, 0, saveOp, outputPath)
+            dict_func_graph = binCFGGraph.get_graph(options.quiet, options.asm, options.clanguage, options.ir, saveOp, outputPath)
             sys.exit()
     if options.directory:
         print('Error: This feature is not implemented in this script.')

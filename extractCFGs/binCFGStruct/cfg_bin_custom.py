@@ -1,4 +1,5 @@
 from ruamel import yaml
+from .cfg_func_custom import CFG_Func_Custom
 
 class CFG_Bin_Custom:
     def __init__(self, binName=''):
@@ -8,15 +9,11 @@ class CFG_Bin_Custom:
     def addFunc(self, function):
         self.cfg_funcs.append(function)
 
-    def printc(self):
-        print('###### BIN: %s'%(self.binName))
+    def printF(self, asmOp, cOp, irOp):
+        print('###### BIN: ###### %s'%(self.binName))
         for func in self.cfg_funcs:
-            func.printc()
-
-    def printa(self):
-        print('###### BIN: %s'%(self.binName))
-        for func in self.cfg_funcs:
-            func.printa()
+            print('=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=')
+            func.printF(asmOp, cOp, irOp)
 
     def generate_yaml_file(self, outputPath):
         cfg_funcs_dict = {}

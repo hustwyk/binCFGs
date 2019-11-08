@@ -55,7 +55,7 @@ class Bin_CFG_Graph:
             cfg_dict[function] = cfg
         return cfg_dict
 
-    def get_graph(self, quietOp, printOp, saveOp, outputPath):
+    def get_graph(self, quietOp, asmOp, cOp, irOp, saveOp, outputPath):
         """
         Get the CFG graph of the bin file. Print the basic block of each function in the func_list
         in the representation of asm or C. Optional choose to save the CFG info in the yaml format.
@@ -63,10 +63,11 @@ class Bin_CFG_Graph:
         node_successor, node_body.
         
         Arguments:
-            quietOp {int/bool} -- If this value is able (greater than 0 or True), the script will print nothing.
-            printOp {int/bool} -- When quietOp is disable, if the value is able, the print node_body will be
-                                asm, and if the value is diable, the print node_body will be C.
-            saveOp {int/bool} -- If this value is able, the resolving result will be stored in yaml file.
+            quietOp {bool} -- If this value is able (greater than 0 or True), the script will print nothing.
+            asmOp {bool} -- When quietOp is disable, if asmOp value is able, the print of node_body will add asm.
+            cOp {bool} -- When quietOp is disable, if cOp value is able, the print of node_body will add C.
+            irOp {bool} -- When quietOp is disable, if irOp value is able, the print of node_body will add vex IR.
+            saveOp {bool} -- If this value is able, the resolving result will be stored in yaml file.
             outputPath {string} -- Specify the yaml stored path.
         
         Returns:
@@ -88,10 +89,12 @@ class Bin_CFG_Graph:
                 node_suc = node.successors
                 if node.block:
                     instrs = node.block.pp() # TODO: get instrustions
+                    vexir = str(node.block.vex)
                 else:
-                    instrs = ""
+                    instrs = ''
+                    vexir = ''
                 if len(instrs):
-                    nodeStruc = CFG_Node_Custom(node_id, node_pre, node_suc, instrs)
+                    nodeStruc = CFG_Node_Custom(node_id, node_pre, node_suc, instrs, vexir)
                     funcStruc.addNode(nodeStruc)
             list_edges = []
             for edge in edges:
@@ -101,10 +104,7 @@ class Bin_CFG_Graph:
             dict_graph_nodes['nodes'] = dict_nodes_node
             dict_func_graph[function] = dict_graph_nodes
         if quietOp:
-            if printOp:
-                binStruc.printa()
-            else:
-                binStruc.printc()
+            binStruc.printF(asmOp, cOp, irOp)
         if saveOp:
             binStruc.generate_yaml_file(outputPath)
         return dict_func_graph
