@@ -88,7 +88,7 @@ class Bin_CFG_Graph:
                 node_pre = node.predecessors
                 node_suc = node.successors
                 if node.block:
-                    instrs = node.block.pp() # TODO: get instrustions
+                    instrs = str(node.block.capstone)
                     vexir = str(node.block.vex)
                 else:
                     instrs = ''
