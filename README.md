@@ -24,16 +24,6 @@
 
 * pyelftools(==0.25)
 
-**Attention**
-
-> When `pip3 install angr` finished, before run this python project, you have to modify one function of angr!
-
-Locate `angr/block.py:294`
-
-In `class CapstoneBlock -> def pp(self):`
-
-Modify `print(str(self))` to `return str(self)`.
-
 ## Run
 
 More information : `python3 extrfiles.py -h`
